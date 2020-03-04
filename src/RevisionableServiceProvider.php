@@ -17,6 +17,8 @@ class RevisionableServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        $this->loadTranslationsFrom(__DIR__.'/resources/lang', 'brandstudio');
+
         if ($this->app->runningInConsole()) {
             $this->loadMigrationsFrom(__DIR__.'/database/migrations');
             $this->publish();
@@ -32,6 +34,10 @@ class RevisionableServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/database/migrations/' => database_path('migrations')
         ], 'migrations');
+
+        $this->publishes([
+            __DIR__.'/resources/lang'      => resource_path('lang/vendor/brandstudio')
+        ], 'lang');
     }
 
 }

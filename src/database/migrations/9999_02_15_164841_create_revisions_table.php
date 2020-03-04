@@ -4,6 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+use BrandStudio\Revisionable\Revision;
+
 class CreateRevisionsTable extends Migration
 {
     /**
@@ -14,21 +16,22 @@ class CreateRevisionsTable extends Migration
     public function up()
     {
         Schema::create('revisions', function (Blueprint $table) {
-            $user_class = config('revisionable.user_class');
-            $user_table = (new $user_class)->getTable();
-
             $table->bigIncrements('id');
 
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on($user_table);
+            $table->unsignedBigInteger('model_id');
+
+            $table->unsignedBigInteger('responsible_id')->nullable();
 
             $table->string('model');
-            $table->string('action');
-            $table->json('from')->nullable();
-            $table->json('to')->nullable();
+            $table->tinyInteger('action')->default(Revision::UPDATED);
 
+            $table->json('old')->nullable();
+            $table->json('new')->nullable();
+
+            // $table->json('from')->nullable();
+            // $table->json('to')->nullable();
+            //
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
