@@ -7,7 +7,7 @@ use BrandStudio\Revisionable\Revision;
 trait RevisionableTrait
 {
 
-    public static function boot()
+    public static function bootRevisionableTrait()
     {
         parent::boot();
 
