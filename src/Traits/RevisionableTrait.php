@@ -9,18 +9,20 @@ trait RevisionableTrait
 
     public static function bootRevisionableTrait()
     {
-        parent::boot();
-
         static::created(function($model) {
             $model->createRevision(null, $model->toArray());
         });
 
         static::updated(function($model) {
-            $model->createRevision($model->getOriginal(), $model->toArray());
+            if ($model->shouldCreateRevision()) {
+                $model->createRevision($model->getOriginal(), $model->toArray());
+            }
         });
 
         static::deleted(function($model) {
-            $model->createRevision($model->toArray());
+            if ($model->shouldCreateRevision()) {
+                $model->createRevision($model->toArray());
+            }
         });
     }
 
@@ -39,19 +41,20 @@ trait RevisionableTrait
             'action' => $old ? ($new ? Revision::UPDATED : Revision::DELETED) : Revision::CREATED,
         ]);
 
-        $revision->old = [
+        $revision->old = $old ? [
             'original' => $old,
-            'pretty' => static::prepareValue($old)
-        ];
+            'pretty' => static::prepareValues($old)
+        ] : null;
 
-        $revision->new = [
+        $revision->new = $new ? [
             'original' => $new,
-            'pretty' => static::prepareValue($new)
-        ];
+            'pretty' => static::prepareValues($new)
+        ] : $new;
+
         $revision->save();
     }
 
-    protected static function prepareValue($val)
+    protected static function prepareValues($val)
     {
         if (!$val) {
             return null;
@@ -66,6 +69,11 @@ trait RevisionableTrait
         }
 
         return $res;
+    }
+
+    protected function shouldCreateRevision() : bool
+    {
+        return true;
     }
 
 }
