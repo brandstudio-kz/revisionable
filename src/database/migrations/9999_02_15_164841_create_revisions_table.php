@@ -18,19 +18,21 @@ class CreateRevisionsTable extends Migration
         Schema::create('revisions', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->unsignedBigInteger('model_id');
+            $table->string('revisionable_description');
+            $table->unsignedBigInteger('revisionable_id');
+            $table->string('revisionable_type');
 
+            $table->string('responsible_description');
             $table->unsignedBigInteger('responsible_id')->nullable();
+            $table->string('responsible_type');
 
-            $table->string('model');
             $table->tinyInteger('action')->default(Revision::UPDATED);
+
+            $table->boolean('highlight')->default(false);
 
             $table->json('old')->nullable();
             $table->json('new')->nullable();
 
-            // $table->json('from')->nullable();
-            // $table->json('to')->nullable();
-            //
             $table->timestamps();
         });
     }
