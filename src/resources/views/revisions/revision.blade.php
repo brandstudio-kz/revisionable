@@ -6,7 +6,7 @@
         <span class="description">{{ $revision->responsible_description }}</span>
     @endif
 
-    <span class="action {{ $revision->action_name }}">{{ trans_choice("revisionable::revision.{$revision->action_name}", $revision->responsible_id == null ? 1 : 0) }}</span>
+    <span class="action {{ $revision->action_name }}">{{ trans_choice("revisionable::revision.{$revision->action_name}", $revision->responsible_id == null ? 1 : 2) }}</span>
     @if($revision->revisionable)
         <a href="{{ $revision->revisionable->identifiableLink() }}">{{ $revision->revisionable_description }}</a>
     @else

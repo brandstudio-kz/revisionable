@@ -11,6 +11,7 @@
             @include('brandstudio::revisions.revision', ['revision' => $revision])
         @endforeach
     </ul>
+    {!! $revisions->links() !!}
 </div>
 
 @push('before_styles')
