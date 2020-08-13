@@ -10,7 +10,7 @@ trait Responsible
 
     public function revisions()
     {
-        return $this->morphMany(Revision::class, 'revisions');
+        return $this->morphMany(Revision::class, 'revisionable');
     }
 
 
