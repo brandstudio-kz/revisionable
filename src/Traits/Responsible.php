@@ -13,5 +13,9 @@ trait Responsible
         return $this->morphMany(Revision::class, 'responsible');
     }
 
+    public function identifiableName()
+    {
+        return $this->name ?? $this->id;
+    }
 
 }

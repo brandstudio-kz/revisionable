@@ -27,7 +27,9 @@
 @section('content')
 <div class="">
   <div class="">
-      qwe
+      @foreach($revisions as $revision)
+        @include('brandstudio::revisions.revision', ['revision' => $revision])
+      @endforeach
       {!! $revisions->links() !!}
   </div>
 </div>

@@ -6,7 +6,7 @@ trait Identifiable {
 
     public function identifiableName()
     {
-        return $this->name ?? $this->id;
+        return trans_choice("admin.{$this->getTable()}", 1)." ".($this->name ?? $this->id);
     }
 
     public function identifiableLink()

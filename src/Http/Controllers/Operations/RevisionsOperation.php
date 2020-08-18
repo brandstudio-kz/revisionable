@@ -20,7 +20,6 @@ trait RevisionsOperation
     protected function setupRevisionsDefaults()
     {
         $this->crud->allowAccess('revisions');
-        $this->crud->setRevisionsView('brandstudio::backpack.revisions');
 
         $this->crud->operation('revisions', function () {
             $this->crud->loadDefaultOperationSettingsFromConfig();
@@ -43,7 +42,7 @@ trait RevisionsOperation
 
         $title = trans_choice('revisionable::revision.revisions', 2);
 
-        return view($this->crud->getRevisionsView(), compact('entry', 'revisions', 'crud', 'title'));
+        return view('brandstudio::backpack.revisions', compact('entry', 'revisions', 'crud', 'title'));
     }
 
 
